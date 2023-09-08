@@ -22,7 +22,7 @@ class ProtoBEATsModel(pl.LightningModule):
         lr: float = 1e-5,
         lr_scheduler_gamma: float = 1e-1,
         num_workers: int = 12,
-        model_path: str = "/app/data/BEATs/BEATs_iter3_plus_AS2M.pt",
+        model_path: str = "data/BEATs/BEATs_iter3_plus_AS2M.pt",
         distance: str = "euclidean",
         **kwargs,
     ) -> None:

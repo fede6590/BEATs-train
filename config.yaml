@@ -62,10 +62,10 @@ model:
   lr: 0.0001
   lr_scheduler_gamma: 0.1
   num_workers: 12  # which is the number of cpus on this machine: DELL Latitude 5521
-  model_path: /app/data/BEATs/BEATs_iter3_plus_AS2M.pt
+  model_path: data/BEATs/BEATs_iter3_plus_AS2M.pt
 data:
-  root_dir: /app/data/ESC-50-master/audio/
-  csv_file: /app/data/ESC-50-master/meta/esc50.csv
+  root_dir: data/ESC-50-master/audio/
+  csv_file: data/ESC-50-master/meta/esc50.csv
   batch_size: 1
   transform: null
 finetuning:

@@ -27,13 +27,13 @@ docker run -v "$PWD":/app \
             -v "data":/data \
             --gpus all `# if you have GPUs available` \
             beats \
-            python fine_tune/trainer.py fit --config /app/config.yaml
+            python fine_tune/trainer.py fit --config config.yaml
 ```
 ```bash
 docker run -v "$PWD":/app \
             -v "data":/data \
             beats \
-            python fine_tune/trainer.py fit --config /app/config.yaml
+            python fine_tune/trainer.py fit --config config.yaml
 ```
 
 ## Using the software: training a prototypical network

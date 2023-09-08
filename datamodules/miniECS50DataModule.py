@@ -45,12 +45,12 @@ def few_shot_dataloader(root_dir, data_frame, n_way, n_shot, n_query, n_tasks, t
 class miniECS50DataModule(LightningDataModule):
     def __init__(
         self,
-        root_dir_train: str = "/app/data/ESC50mini/audio/train",
-        root_dir_val: str = "/app/data/ESC50mini/audio/val",
-        root_dir_test: str = "/app/data/ESC50mini/audio/test",
-        csv_file_train: str = "/app/data/ESC50mini/meta/esc50mini_train.csv",
-        csv_file_val: str = "/app/data/ESC50mini/meta/esc50mini_val.csv",
-        csv_file_test: str = "/app/data/ESC50mini/meta/esc50mini_test.csv",
+        root_dir_train: str = "data/ESC50mini/audio/train",
+        root_dir_val: str = "data/ESC50mini/audio/val",
+        root_dir_test: str = "data/ESC50mini/audio/test",
+        csv_file_train: str = "data/ESC50mini/meta/esc50mini_train.csv",
+        csv_file_val: str = "data/ESC50mini/meta/esc50mini_val.csv",
+        csv_file_test: str = "data/ESC50mini/meta/esc50mini_test.csv",
         n_task_train: int = 100,
         n_task_val: int = 100,
         n_task_test: int = 10,
