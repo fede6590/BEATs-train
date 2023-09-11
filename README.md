@@ -7,9 +7,9 @@ This GitHub repository is made for using [BEATs](https://arxiv.org/abs/2212.0905
 
 ## Necessary downloads
 
-- Download [BEATs_iter3+ (AS2M) model](https://msranlcmtteamdrive.blob.core.windows.net/share/BEATs/BEATs_iter3_plus_AS2M.pt?sv=2020-08-04&st=2022-12-18T10%3A40%3A53Z&se=3022-12-19T10%3A40%3A00Z&sr=b&sp=r&sig=SKBQMA7MRAMFv7Avyu8a4EkFOlkEhf8nF0Jc2wlYd%2B0%3D)
+- Download [BEATs_iter3+ (AS2M) model](https://valle.blob.core.windows.net/share/BEATs/BEATs_iter3_plus_AS2M.pt?sv=2020-08-04&st=2023-03-01T07%3A51%3A05Z&se=2033-03-02T07%3A51%3A00Z&sr=c&sp=rl&sig=QJXmSJG9DbMKf48UDIU1MfzIro8HQOf3sqlNXiflY1I%3D)
 - Download [ESC50 dataset](https://github.com/karoldvl/ESC-50/archive/master.zip)
-- Clone this repo: `git clone https://github.com/NINAnor/rare_species_detections.git`
+- Clone this repo: `git clone https://github.com/fede6590/BEATs-train.git`
 - Build the docker image:
 
 ```bash
@@ -27,13 +27,13 @@ docker run -v "$PWD":/app \
             -v "data":/data \
             --gpus all `# if you have GPUs available` \
             beats \
-            python fine_tune/trainer.py fit --config config.yaml
+            python fine_tune/trainer.py fit --config fine_tune/config.yaml
 ```
 ```bash
 docker run -v "$PWD":/app \
             -v "data":/data \
             beats \
-            python fine_tune/trainer.py fit --config config.yaml
+            python fine_tune/trainer.py fit --config fine_tune/config.yaml
 ```
 
 ## Using the software: training a prototypical network
@@ -69,3 +69,11 @@ docker run -v "$PWD":/app \
             beats \
             python prototypicalbeats/trainer.py fit --data miniESC50DataModule
 ```
+
+# BEATs: Audio Pre-Training with Acoustic Tokenizers
+- Paper: https://arxiv.org/abs/2212.09058
+- Github source: https://github.com/microsoft/unilm/tree/master/beats
+- Copyright (c) 2022 Microsoft
+- Licensed under The MIT License [see LICENSE for details]
+- Based on fairseq code bases
+- https://github.com/pytorch/fairseq

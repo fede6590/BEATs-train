@@ -29,7 +29,7 @@ class BEATsTransferLearningModel(pl.LightningModule):
         Args:
             lr: Initial learning rate
         """
-        super().__init__()
+        super().__init__(**kwargs)
         self.lr = lr
         self.lr_scheduler_gamma = lr_scheduler_gamma
         self.num_workers = num_workers
@@ -102,7 +102,7 @@ class BEATsTransferLearningModel(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         # 1. Forward pass:
         x, padding_mask, y_true = batch
-        y_probs = self.forward(x)
+        y_probs = self.forward(x, padding_mask)
 
         # 2. Compute loss
         self.log("val_loss", self.loss(y_probs, y_true), prog_bar=True)

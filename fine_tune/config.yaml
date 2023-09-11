@@ -10,7 +10,6 @@ trainer:
   num_nodes: 1
   num_processes: null
   devices: null
-  gpus: '1'
   auto_select_gpus: null
   tpu_cores: null
   ipus: null
@@ -45,13 +44,13 @@ trainer:
   auto_lr_find: false
   replace_sampler_ddp: true
   detect_anomaly: false
-  auto_scale_batch_size: false
+  auto_scale_batch_size: true
   plugins: null
   amp_backend: null
   amp_level: null
   move_metrics_to_cpu: false
   multiple_trainloader_mode: max_size_cycle
-  inference_mode: true
+  inference_mode: false
   callbacks:
   - class_path: pytorch_lightning.callbacks.EarlyStopping
     init_args:
@@ -61,7 +60,7 @@ model:
   num_target_classes: 50
   lr: 0.0001
   lr_scheduler_gamma: 0.1
-  num_workers: 12  # which is the number of cpus on this machine: DELL Latitude 5521
+  num_workers: 12
   model_path: data/BEATs/BEATs_iter3_plus_AS2M.pt
 data:
   root_dir: data/ESC-50-master/audio/

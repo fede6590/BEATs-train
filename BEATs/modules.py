@@ -76,12 +76,12 @@ class GLU_Linear(nn.Module):
 
         if self.glu_type == "bilinear":
             x = (
-                x[:, :, 0 : self.output_dim]
-                * x[:, :, self.output_dim : self.output_dim * 2]
+                x[:, :, 0: self.output_dim]
+                * x[:, :, self.output_dim: self.output_dim * 2]
             )
         else:
-            x = x[:, :, 0 : self.output_dim] * self.glu_act(
-                x[:, :, self.output_dim : self.output_dim * 2]
+            x = x[:, :, 0: self.output_dim] * self.glu_act(
+                x[:, :, self.output_dim: self.output_dim * 2]
             )
 
         return x
