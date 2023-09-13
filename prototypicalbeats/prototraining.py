@@ -1,19 +1,20 @@
-import numpy as np
+# import numpy as np
 
 import torch
 from torch import nn, optim
-from torch.nn import functional as F
-from torch.optim.lr_scheduler import MultiStepLR
-from torch.optim.optimizer import Optimizer
+# from torch.nn import functional as F
+# from torch.optim.lr_scheduler import MultiStepLR
+# from torch.optim.optimizer import Optimizer
 from torchmetrics import Accuracy
 
-import pytorch_lightning as pl
-from pytorch_lightning.utilities.rank_zero import rank_zero_info
+import lightning.pytorch as pl
+# from pytorch_lightning.utilities.rank_zero import rank_zero_info
 
 from BEATs.BEATs import BEATs, BEATsConfig
 
 
 class ProtoBEATsModel(pl.LightningModule):
+
     def __init__(
         self,
         n_way: int = 5,

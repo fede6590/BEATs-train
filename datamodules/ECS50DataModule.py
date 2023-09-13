@@ -1,4 +1,4 @@
-import glob
+# import glob
 import librosa
 import torch
 import pandas as pd
@@ -8,7 +8,7 @@ from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 from sklearn.preprocessing import LabelEncoder
 
-from pytorch_lightning import LightningDataModule
+from lightning.pytorch import LightningDataModule
 
 
 class AudioDataset(Dataset):
@@ -16,7 +16,6 @@ class AudioDataset(Dataset):
         self.root_dir = root_dir
         self.transform = transform
         self.data_frame = data_frame
-
         self.label_encoder = LabelEncoder()
         self.label_encoder.fit(self.data_frame["category"])
 
@@ -45,7 +44,7 @@ class ECS50DataModule(LightningDataModule):
         self,
         root_dir: str = "data/ESC-50-master/audio/",
         csv_file: str = "data/ESC-50-master/meta/esc50.csv",
-        batch_size: int = 16,
+        batch_size: int = 1,
         split_ratio=0.8,
         transform=None,
         **kwargs

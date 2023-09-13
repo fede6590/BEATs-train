@@ -1,19 +1,20 @@
-import numpy as np
+# import numpy as np
 
 import torch
 from torch import nn, optim
-from torch.nn import functional as F
-from torch.optim.lr_scheduler import MultiStepLR
-from torch.optim.optimizer import Optimizer
+# from torch.nn import functional as F
+# from torch.optim.lr_scheduler import MultiStepLR
+# from torch.optim.optimizer import Optimizer
 from torchmetrics import Accuracy
 
-import pytorch_lightning as pl
-from pytorch_lightning.utilities.rank_zero import rank_zero_info
+import lightning.pytorch as pl
+# from pytorch_lightning.utilities.rank_zero import rank_zero_info
 
 from BEATs.BEATs import BEATs, BEATsConfig
 
 
 class BEATsTransferLearningModel(pl.LightningModule):
+
     def __init__(
         self,
         num_target_classes: int = 50,
@@ -29,7 +30,7 @@ class BEATsTransferLearningModel(pl.LightningModule):
         Args:
             lr: Initial learning rate
         """
-        super().__init__(**kwargs)
+        super().__init__()
         self.lr = lr
         self.lr_scheduler_gamma = lr_scheduler_gamma
         self.num_workers = num_workers
@@ -102,7 +103,7 @@ class BEATsTransferLearningModel(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         # 1. Forward pass:
         x, padding_mask, y_true = batch
-        y_probs = self.forward(x, padding_mask)
+        y_probs = self.forward(x)
 
         # 2. Compute loss
         self.log("val_loss", self.loss(y_probs, y_true), prog_bar=True)

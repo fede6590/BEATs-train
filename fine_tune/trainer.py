@@ -1,5 +1,7 @@
-from pytorch_lightning import cli_lightning_logo
-from pytorch_lightning.cli import LightningCLI
+# import torch
+
+from lightning.pytorch import cli_lightning_logo
+from lightning.pytorch.cli import LightningCLI
 
 from fine_tune.transferLearning import BEATsTransferLearningModel
 from datamodules.ECS50DataModule import ECS50DataModule
@@ -22,6 +24,15 @@ class MyLightningCLI(LightningCLI):
         # RuntimeError: disabling the Config Saving
         self.save_config_callback = None
 
+    def build_data_module(self, data_module_cls):
+        return data_module_cls(
+            root_dir="data/ESC-50-master/audio/",
+            csv_file="data/ESC-50-master/meta/esc50.csv",
+            batch_size=self.config["data.batch_size"],
+            split_ratio=0.8,
+            transform=None,
+        )
+
 
 def cli_main():
     MyLightningCLI(
@@ -32,6 +43,3 @@ def cli_main():
 if __name__ == "__main__":
     cli_lightning_logo()
     cli_main()
-
-    # docker run -v $PWD:/app -v /data/Prosjekter3/823001_19_metodesats_analyse_23_36_cretois/:/data --gpus all dcase poetry run fine_tune/trainer.py fit --help
-    # docker run -v $PWD:/app -v /data/Prosjekter3/823001_19_metodesats_analyse_23_36_cretois/:/data --gpus all dcase poetry run fine_tune/trainer.py fit --accelerator gpu --trainer.gpus 1 --data.batch_size 16

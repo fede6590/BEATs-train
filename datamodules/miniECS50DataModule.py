@@ -6,7 +6,7 @@ import os
 
 from torch.utils.data import DataLoader
 
-from pytorch_lightning import LightningDataModule
+from lightning.pytorch import LightningDataModule
 from data_utils.dataset import TaskSampler, AudioDataset
 
 
