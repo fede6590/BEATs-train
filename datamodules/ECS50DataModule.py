@@ -44,7 +44,7 @@ class ECS50DataModule(LightningDataModule):
         self,
         root_dir: str = "data/ESC-50-master/audio/",
         csv_file: str = "data/ESC-50-master/meta/esc50.csv",
-        batch_size: int = 1,
+        batch_size: int = 16,
         split_ratio=0.8,
         transform=None,
         **kwargs

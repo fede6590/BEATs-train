@@ -19,7 +19,7 @@ class ProtoBEATsModel(pl.LightningModule):
         self,
         n_way: int = 5,
         milestones: int = 5,
-        batch_size: int = 1,
+        batch_size: int = 16,
         lr: float = 1e-5,
         lr_scheduler_gamma: float = 1e-1,
         num_workers: int = 12,

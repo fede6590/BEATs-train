@@ -8,9 +8,14 @@ from torch import nn, optim
 from torchmetrics import Accuracy
 
 import lightning.pytorch as pl
+import lightning.pytorch.utilities as pl_utils
 # from pytorch_lightning.utilities.rank_zero import rank_zero_info
 
 from BEATs.BEATs import BEATs, BEATsConfig
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class BEATsTransferLearningModel(pl.LightningModule):
@@ -19,7 +24,7 @@ class BEATsTransferLearningModel(pl.LightningModule):
         self,
         num_target_classes: int = 50,
         milestones: int = 5,
-        batch_size: int = 1,
+        batch_size: int = 16,
         lr: float = 1e-3,
         lr_scheduler_gamma: float = 1e-1,
         num_workers: int = 12,
@@ -38,8 +43,17 @@ class BEATsTransferLearningModel(pl.LightningModule):
         self.milestones = milestones
         self.num_target_classes = num_target_classes
 
+        # ADDED: attempt to upgrade the checkpoint file
+        try:
+            self.checkpoint = pl_utils.upgrade_checkpoint(
+                checkpoint_path=model_path,
+            )
+        except Exception as e:
+            logger.error(e)
+            self.checkpoint = torch.load(model_path)
+
         # Initialise BEATs model
-        self.checkpoint = torch.load(model_path)
+        # self.checkpoint = torch.load(model_path)
         self.cfg = BEATsConfig(
             {
                 **self.checkpoint["cfg"],
