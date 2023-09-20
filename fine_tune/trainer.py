@@ -1,5 +1,3 @@
-# import torch
-
 from lightning.pytorch import cli_lightning_logo
 from lightning.pytorch.cli import LightningCLI
 
