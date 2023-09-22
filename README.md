@@ -1,7 +1,7 @@
 # BEATs fine-tuning pipeline 🎵
 
 This repository is dedicated to building a preliminary fine-tuning pipeline for [BEATs](https://arxiv.org/abs/2212.09058), a powerful "Audio Pre-Training with Acoustic
-Tokenizers" model developed by Microsoft, and you can find the official repository [here](https://github.com/microsoft/unilm/tree/master/beats). This pipeline is specifically tailored for the [ESC-50 dataset](https://github.com/karolpiczak/ESC-50).
+Tokenizers" model developed by Microsoft, and you can find the official repository [here](https://github.com/microsoft/unilm/tree/master/beats). This pipeline is a work in progress focused on fine-tuning the model using the [ESC-50 dataset](https://github.com/karolpiczak/ESC-50) before extending its capabilities to handle custom datasets.
 
 The initial implementation of this pipeline was developed by the [Norwegian Institute for Nature Research (NINA)](https://www.nina.no/) using [Lightning AI](https://lightning.ai/docs) and their work is available [here](https://github.com/NINAnor/rare_species_detections/tree/main).
 
