@@ -1,9 +1,9 @@
 seed_everything: 42
 trainer:
-  accelerator: cpu
+  accelerator: auto
   accumulate_grad_batches: 1
   barebones: null
-  benchmark: null
+  benchmark: true
   callbacks:
     - class_path: lightning.pytorch.callbacks.EarlyStopping
       init_args:
@@ -14,17 +14,17 @@ trainer:
   deterministic: null
   check_val_every_n_epoch: 1
   default_root_dir: null
-  devices: 1
+  devices: auto
   enable_checkpointing: true
-  fast_dev_run: false
+  fast_dev_run: true
   gradient_clip_algorithm: null
   gradient_clip_val: null
   limit_train_batches: null
   limit_test_batches: null
   limit_val_batches: null
-  log_every_n_steps: 50
+  log_every_n_steps: null
   logger: true
-  max_epochs: 500
+  max_epochs: 10
   min_epochs: null
   max_steps: -1
   min_steps: null
@@ -47,12 +47,12 @@ model:
   num_target_classes: 50
   lr: 0.0001
   lr_scheduler_gamma: 0.1
-  num_workers: 12
+  num_workers: 6
   model_path: data/BEATs/BEATs_iter3_plus_AS2M.pt
 data:
   root_dir: data/ESC-50-master/audio/
   csv_file: data/ESC-50-master/meta/esc50.csv
-  batch_size: 1
+  batch_size: 8
   transform: null
 finetuning:
   milestones: 0

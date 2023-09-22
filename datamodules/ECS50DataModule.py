@@ -46,6 +46,7 @@ class ECS50DataModule(LightningDataModule):
         batch_size: int = 16,
         split_ratio=0.8,
         transform=None,
+        num_workers=6,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -54,6 +55,7 @@ class ECS50DataModule(LightningDataModule):
         self.batch_size = batch_size
         self.split_ratio = split_ratio
         self.transform = transform
+        self.num_workers = num_workers
 
         self.setup()
 
@@ -74,11 +76,11 @@ class ECS50DataModule(LightningDataModule):
             root_dir=self.root_dir, data_frame=self.train_set, transform=self.transform
         )
 
-        return DataLoader(train_df, batch_size=self.batch_size, shuffle=True)
+        return DataLoader(train_df, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers)
 
     def val_dataloader(self):
         val_df = AudioDataset(
             root_dir=self.root_dir, data_frame=self.val_set, transform=self.transform
         )
 
-        return DataLoader(val_df, batch_size=self.batch_size, shuffle=False)
+        return DataLoader(val_df, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers)

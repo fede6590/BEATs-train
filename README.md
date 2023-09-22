@@ -1,26 +1,56 @@
-# BEATs fine-tuning pipeline
+# BEATs Fine-Tuning Pipeline
 
-This GitHub repository is made for using [BEATs](https://arxiv.org/abs/2212.09058) on your own dataset and is still a work in progress. In its current form, the repository allow a user to
+This repository is dedicated to building a preliminary fine-tuning pipeline for [BEATs](https://arxiv.org/abs/2212.09058), a powerful audio pre-training model. BEATs is developed by Microsoft, and you can find the official repository [here](https://github.com/microsoft/unilm/tree/master/beats). This pipeline is specifically tailored for the [ESC-50 dataset](https://github.com/karolpiczak/ESC-50).
 
-- Fine-tune BEATs on the [ESC50 dataset](https://github.com/karolpiczak/ESC-50).
-- Fine-tune a prototypical network with BEATs as feature extractor on the [ESC50 dataset](https://github.com/karolpiczak/ESC-50).
+The initial implementation of this pipeline was developed by the [Norwegian Institute for Nature Research (NINA)](https://www.nina.no/), and you can access their work [here](https://github.com/NINAnor/rare_species_detections/tree/main).
 
-## Necessary downloads
+**Changes and Ongoing Work:**
+- This pipeline focuses on ESC-50 for future evaluation
+- The Lightning implementation has been updated to version 2.0
+- Ongoing work includes addressing warning errors during training, optimizing the Docker container, and conducting evaluation
 
-- Download [BEATs_iter3+ (AS2M) model](https://valle.blob.core.windows.net/share/BEATs/BEATs_iter3_plus_AS2M.pt?sv=2020-08-04&st=2023-03-01T07%3A51%3A05Z&se=2033-03-02T07%3A51%3A00Z&sr=c&sp=rl&sig=QJXmSJG9DbMKf48UDIU1MfzIro8HQOf3sqlNXiflY1I%3D)
-- Download [ESC50 dataset](https://github.com/karoldvl/ESC-50/archive/master.zip)
-- Clone this repo: `git clone https://github.com/fede6590/BEATs-train.git`
-- Build the docker image:
+**NOTE:**
+fine-tuning and/or retraining the Tokenizer is NOT on the agenda at the moment. This pipeline is designed for training the feature extractor and the prototypical network.
+
+
+## Preparation
+
+To get started, follow these steps:
+
+- Clone this repository:
+
+  ```bash
+  git clone https://github.com/fede6590/BEATs-train.git
+  ```
+
+- Download the following files:
+    - [BEATs_iter3+ (AS2M) model](https://valle.blob.core.windows.net/share/BEATs/BEATs_iter3_plus_AS2M.pt?sv=2020-08-04&st=2023-03-01T07%3A51%3A05Z&se=2033-03-02T07%3A51%3A00Z&sr=c&sp=rl&sig=QJXmSJG9DbMKf48UDIU1MfzIro8HQOf3sqlNXiflY1I%3D)
+    - [ESC-50 dataset](https://github.com/karoldvl/ESC-50/archive/master.zip)
+
+
+After downloading, extract the contents of the ESC-50 dataset ZIP file inside the `data` folder. The folder structure within the data directory should be as the following:
+- data/
+    - BEATs/
+        - BEATs_iter3_plus_AS2M.pt
+    - ESC-50-master/
+        - audio/
+        - meta/
+        - ...
+
+
+## Getting Started with Training
+
+To build the Docker image, use the following command:
 
 ```bash
 docker build -t beats -f Dockerfile .
 ```
 
-**Make sure `ESC-50-master` and `BEATs/BEATs_iter3_plus_AS2M.pt` are stored in your `$DATAPATH` (data folder that is exposed to the Docker container)**
+### Fine-tuning
 
-## Using the software: fine tuning
+**IMPORTANT**: `fine_tune/config.yaml` contains all the customizable parameters for training.
 
-Providing that `ESC-50-master` and `BEATs/BEATs_iter3_plus_AS2M.pt` are stored in your `$DATAPATH`:
+For fine-tuning BEATs on your dataset, use the following commands:
 
 ```bash
 docker run -v "$PWD":/app \
@@ -36,9 +66,9 @@ docker run -v "$PWD":/app \
             python fine_tune/trainer.py fit --config fine_tune/config.yaml
 ```
 
-## Using the software: training a prototypical network
+### Prototypical network
 
-- Create a miniESC50 dataset in your `$DATAPATH`:
+To train the prototypical network, first, create a miniESC50 dataset:
 
 ```bash
 docker run -v "$PWD":/app \
@@ -54,7 +84,7 @@ docker run -v "$PWD":/app \
             python data_utils/miniESC50.py
 ```
 
-- Train the prototypical network:
+Then, start the training:
 
 ```bash
 docker run -v "$PWD":/app \
@@ -70,10 +100,4 @@ docker run -v "$PWD":/app \
             python prototypicalbeats/trainer.py fit --data miniESC50DataModule
 ```
 
-# BEATs: Audio Pre-Training with Acoustic Tokenizers
-- Paper: https://arxiv.org/abs/2212.09058
-- Github source: https://github.com/microsoft/unilm/tree/master/beats
-- Copyright (c) 2022 Microsoft
-- Licensed under The MIT License [see LICENSE for details]
-- Based on fairseq code bases
-- https://github.com/pytorch/fairseq
+**PENDING**: orquestrate the training using a config file similarly to the fine-tuning case.
