@@ -15,6 +15,7 @@ class AudioDataset(Dataset):
         self.root_dir = root_dir
         self.transform = transform
         self.data_frame = data_frame
+
         self.label_encoder = LabelEncoder()
         self.label_encoder.fit(self.data_frame["category"])
 
@@ -41,12 +42,11 @@ class AudioDataset(Dataset):
 class ECS50DataModule(LightningDataModule):
     def __init__(
         self,
-        root_dir: str = "data/ESC-50-master/audio/",
-        csv_file: str = "data/ESC-50-master/meta/esc50.csv",
+        root_dir: str = "/data/ESC-50-master/audio/",
+        csv_file: str = "/data/ESC-50-master/meta/esc50.csv",
         batch_size: int = 16,
         split_ratio=0.8,
         transform=None,
-        num_workers=6,
         **kwargs
     ):
         super().__init__(**kwargs)
@@ -55,7 +55,6 @@ class ECS50DataModule(LightningDataModule):
         self.batch_size = batch_size
         self.split_ratio = split_ratio
         self.transform = transform
-        self.num_workers = num_workers
 
         self.setup()
 
@@ -76,11 +75,11 @@ class ECS50DataModule(LightningDataModule):
             root_dir=self.root_dir, data_frame=self.train_set, transform=self.transform
         )
 
-        return DataLoader(train_df, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers)
+        return DataLoader(train_df, batch_size=self.batch_size, shuffle=True)
 
     def val_dataloader(self):
         val_df = AudioDataset(
             root_dir=self.root_dir, data_frame=self.val_set, transform=self.transform
         )
 
-        return DataLoader(val_df, batch_size=self.batch_size, shuffle=False, num_workers=self.num_workers)
+        return DataLoader(val_df, batch_size=self.batch_size, shuffle=False)

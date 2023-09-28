@@ -23,7 +23,7 @@ def few_shot_dataloader(root_dir, data_frame, n_way, n_shot, n_query, n_tasks, t
 
     sampler = TaskSampler(
         df,
-        n_way=n_way,  # number of classes
+        n_way=n_way,  # Number of classes
         n_shot=n_shot,  # Number of images PER CLASS in the support set
         n_query=n_query,  # Number of images PER CLASSS in the query set
         n_tasks=n_tasks  # Not sure

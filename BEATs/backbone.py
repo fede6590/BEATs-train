@@ -114,7 +114,9 @@ class TransformerEncoder(nn.Module):
 
         x_conv = self.pos_conv(x.transpose(1, 2))
         x_conv = x_conv.transpose(1, 2)
-        x = x + x_conv
+        # x += x_conv
+        # Avoid the inplace operation which messes up the gradients
+        x = x.clone() + x_conv
 
         if not self.layer_norm_first:
             x = self.layer_norm(x)

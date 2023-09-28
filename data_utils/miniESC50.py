@@ -41,9 +41,9 @@ def split_data(data_frame, train_samples, val_samples):
 
 if __name__ == "__main__":
 
-    root_dir = "data/ESC-50-master"
-    csv_file = "data/ESC-50-master/meta/esc50.csv"
-    target_path = "data/ESC50mini"
+    root_dir = "/data/ESC-50-master"
+    csv_file = "/data/ESC-50-master/meta/esc50.csv"
+    target_path = "/data/ESC50mini"
 
     data_frame = pd.read_csv(csv_file)
 

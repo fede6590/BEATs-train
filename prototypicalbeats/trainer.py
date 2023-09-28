@@ -17,8 +17,8 @@ class MyLightningCLI(LightningCLI):
             }
         )
 
-        # RuntimeError: disabling the Config Saving
-        self.save_config_callback = None
+        # # RuntimeError: disabling the Config Saving
+        # self.save_config_callback = None
 
 
 def cli_main():

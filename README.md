@@ -6,7 +6,12 @@ Tokenizers" model developed by Microsoft, and you can find the official reposito
 The initial implementation of this pipeline was developed by the [Norwegian Institute for Nature Research (NINA)](https://www.nina.no/) using [Lightning AI](https://lightning.ai/docs) and their work is available [here](https://github.com/NINAnor/rare_species_detections/tree/main).
 
 **UPDATES:**
-- Lightning implementation updated to version 2.0
+- Docker image built with:
+  - Python 3.10 (slim version image based on Debian bullseye)
+  - PyTorch 2.0
+  - Torchaudio 2.0
+  - Lightning 2.0
+- Optimized Docker image with minimum requirements (less dependencies)
 - Warning errors while training (still in progress)
 
 **PENDINGS**: 

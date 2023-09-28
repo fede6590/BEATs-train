@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 class BEATsTransferLearningModel(pl.LightningModule):
-
     def __init__(
         self,
         num_target_classes: int = 50,
@@ -20,8 +19,9 @@ class BEATsTransferLearningModel(pl.LightningModule):
         batch_size: int = 16,
         lr: float = 1e-3,
         lr_scheduler_gamma: float = 1e-1,
-        num_workers: int = 12,
-        model_path: str = "data/BEATs/BEATs_iter3_plus_AS2M.pt",
+        num_workers: int = 6,
+        model_path: str = "/model/BEATs_iter3_plus_AS2M.pt",
+        ft_entire_network: bool = False,  # Boolean on whether the classifier layer + BEATs should be fine-tuned
         **kwargs,
     ) -> None:
         """TransferLearningModel.
@@ -35,18 +35,10 @@ class BEATsTransferLearningModel(pl.LightningModule):
         self.batch_size = batch_size
         self.milestones = milestones
         self.num_target_classes = num_target_classes
-
-        # ADDED: attempt to upgrade the checkpoint file
-        try:
-            self.checkpoint = pl.utilities.upgrade_checkpoint(
-                checkpoint_path=model_path,
-            )
-        except Exception as e:
-            logger.error(e)
-            self.checkpoint = torch.load(model_path)
+        self.ft_entire_network = ft_entire_network
 
         # Initialise BEATs model
-        # self.checkpoint = torch.load(model_path)
+        self.checkpoint = torch.load(model_path)
         self.cfg = BEATsConfig(
             {
                 **self.checkpoint["cfg"],
@@ -72,6 +64,13 @@ class BEATsTransferLearningModel(pl.LightningModule):
 
         # 2. Classifier
         self.fc = nn.Linear(self.cfg.encoder_embed_dim, self.cfg.predictor_class)
+
+    def extract_features(self, x, padding_mask=None):
+        if padding_mask is not None:
+            x, _ = self.beats.extract_features(x, padding_mask)
+        else:
+            x, _ = self.beats.extract_features(x)
+        return x
 
     def forward(self, x, padding_mask=None):
         """Forward pass. Return x"""
@@ -119,9 +118,22 @@ class BEATsTransferLearningModel(pl.LightningModule):
         self.log("val_acc", self.valid_acc(y_probs, y_true), prog_bar=True)
 
     def configure_optimizers(self):
-        optimizer = optim.AdamW(
-            [{"params": self.beats.parameters()}, {"params": self.fc.parameters()}],
-            lr=self.lr, betas=(0.9, 0.98), weight_decay=0.01
-        )
+        if self.ft_entire_network:
+
+            beat_params = filter(lambda p: p.requires_grad, self.beats.parameters())
+            fc_params = filter(lambda p: p.requires_grad, self.fc.parameters())
+
+            optimizer = optim.AdamW(
+                [
+                    {"params": beat_params},
+                    {"params": fc_params}
+                ],
+                lr=self.lr, betas=(0.9, 0.98), weight_decay=0.01
+            )
+        else:
+            optimizer = optim.AdamW(
+                self.fc.parameters(),
+                lr=self.lr, betas=(0.9, 0.98), weight_decay=0.01
+            )
 
         return optimizer

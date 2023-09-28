@@ -56,7 +56,7 @@ class TokenizersConfig:
 
         # quantizer
         self.quant_n: int = 1024  # codebook number in quantizer
-        self.quant_dim: int = 256  # codebook dimension in quantizer
+        self.quant_dim: int = 256    # codebook dimension in quantizer
 
         if cfg is not None:
             self.update(cfg)

@@ -8,16 +8,14 @@ from BEATs.BEATs import BEATs, BEATsConfig
 
 
 class ProtoBEATsModel(pl.LightningModule):
-
     def __init__(
         self,
         n_way: int = 5,
         milestones: int = 5,
-        batch_size: int = 16,
         lr: float = 1e-5,
         lr_scheduler_gamma: float = 1e-1,
-        num_workers: int = 12,
-        model_path: str = "data/BEATs/BEATs_iter3_plus_AS2M.pt",
+        num_workers: int = 6,
+        model_path: str = "/data/BEATs/BEATs_iter3_plus_AS2M.pt",
         distance: str = "euclidean",
         **kwargs,
     ) -> None:
@@ -30,7 +28,6 @@ class ProtoBEATsModel(pl.LightningModule):
         self.lr = lr
         self.lr_scheduler_gamma = lr_scheduler_gamma
         self.num_workers = num_workers
-        self.batch_size = batch_size
         self.milestones = milestones
         self.distance = distance
 
@@ -91,7 +88,7 @@ class ProtoBEATsModel(pl.LightningModule):
         """Return the embeddings and the padding mask"""
         return self.beats.extract_features(input, padding_mask)
 
-    def forward(self,
+    def forward(self, 
                 support_images: torch.Tensor,
                 support_labels: torch.Tensor,
                 query_images: torch.Tensor,
@@ -120,10 +117,10 @@ class ProtoBEATsModel(pl.LightningModule):
                 dists.append(q_dists)
         else:
             print("The distance provided is not implemented. Distance can be either euclidean or mahalanobis")
-
+ 
         dists = torch.stack(dists, dim=0)
 
-        # We drop the last dimension without changing the gradients
+        # We drop the last dimension without changing the gradients 
         dists = dists.mean(dim=2).squeeze()
 
         scores = -dists

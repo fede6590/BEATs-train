@@ -3,7 +3,10 @@ from torch.optim.optimizer import Optimizer
 import lightning.pytorch as pl
 from lightning.pytorch.callbacks import BaseFinetuning
 
+from typing import Optional
 
+
+# See https://github.com/PyTorchLightning/pytorch-lightning/blob/master/pl_examples/domain_templates/computer_vision_fine_tuning.py
 class MilestonesFinetuning(BaseFinetuning):
     def __init__(self, milestones: int = 1):
         super().__init__()
@@ -17,7 +20,7 @@ class MilestonesFinetuning(BaseFinetuning):
         pl_module: pl.LightningModule,
         epoch: int,
         optimizer: Optimizer,
-        # opt_idx: int,
+        opt_idx: Optional[int] = None,
     ):
         if epoch == self.milestones:
             # unfreeze BEATs

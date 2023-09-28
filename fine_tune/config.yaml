@@ -16,7 +16,7 @@ trainer:
   default_root_dir: null
   devices: auto
   enable_checkpointing: true
-  fast_dev_run: true
+  fast_dev_run: false  # DEV
   gradient_clip_algorithm: null
   gradient_clip_val: null
   limit_train_batches: null
@@ -42,13 +42,14 @@ trainer:
   sync_batchnorm: false
   val_check_interval: null
   enable_model_summary: false
-  inference_mode: true
+  inference_mode: false
 model:
   num_target_classes: 50
   lr: 0.0001
   lr_scheduler_gamma: 0.1
   num_workers: 6
   model_path: data/BEATs/BEATs_iter3_plus_AS2M.pt
+  ft_entire_network: true # NEW
 data:
   root_dir: data/ESC-50-master/audio/
   csv_file: data/ESC-50-master/meta/esc50.csv
