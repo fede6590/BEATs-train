@@ -108,7 +108,7 @@ Then, start the training:
               -v "data":/data \
               --gpus all \
               beats \
-              python prototypicalbeats/trainer.py fit --trainer.accelerator gpu --trainer.gpus 1 --data miniESC50DataModule
+              python prototypicalbeats/trainer.py fit --data miniESC50DataModule
   ```
 
 - without GPU

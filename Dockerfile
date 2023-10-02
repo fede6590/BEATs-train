@@ -1,34 +1,24 @@
-FROM python:3.10-slim-bullseye
+FROM python:3.10-slim-bullseye AS builder
 
-# Set the default shell to Bash
-SHELL ["/bin/bash", "-c"]
-
-# Install system dependencies
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     ffmpeg \
-#     build-essential && \
-#     rm -rf /var/lib/apt/lists/* && \
-#     python -m pip install --upgrade pip && \
-#     apt-get clean
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && \
+    apt-get install -yqq --no-install-recommends \
     build-essential && \
     rm -rf /var/lib/apt/lists/* && \
-    python -m pip install --upgrade pip && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/cache/apt/* && \
+    apt-get autoremove -y
 
-# Set a working directory
 WORKDIR /app
 
-# Copy only the requirements file
+FROM builder AS final
+
 COPY requirements.txt .
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-cache-dir -r requirements.txt
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
 
-# Copy the rest of your application code into the container
-COPY . /app
+USER dev
 
-# Update the pythonpath
 ENV PYTHONPATH "${PYTHONPATH}:/app"
-CMD ["bash"]
