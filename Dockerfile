@@ -19,6 +19,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . .
 
-USER dev
-
 ENV PYTHONPATH "${PYTHONPATH}:/app"
