@@ -53,7 +53,7 @@ def get_labels(afiles, labelfile):
 
 def loadBEATs(ft_model):
     print("The model path is:", ft_model)
-    checkpoint = torch.load("/model/BEATs_iter3_plus_AS2M.pt")
+    checkpoint = torch.load("/data/BEATs/BEATs_iter3_plus_AS2M.pt")
     cfg = BEATsConfig(checkpoint["cfg"])
     BEATs_model = BEATs(cfg)
 
