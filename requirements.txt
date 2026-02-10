@@ -7,4 +7,4 @@ seaborn~=0.12
 lightning~=2.0
 jsonargparse[signatures]~=4.25
 numpy~=1.25
-protobuf~=4.24
+protobuf~=5.29.6
